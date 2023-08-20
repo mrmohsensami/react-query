@@ -7,7 +7,12 @@ const fetchSuperHeros = () => {
 };
 
 export const RQSuperHeroes = () => {
-    const { data, isLoading, isError, error } = useQuery('super-heroes', fetchSuperHeros);
+    const { data, isLoading, isError, error, isFetching } = useQuery('super-heroes', fetchSuperHeros, {
+        cacheTime: 5000,
+    });
+    if (isFetching) {
+        return <h2>Fetching...</h2>;
+    }
     if (isLoading) {
         return <h2>Loading...</h2>;
     }
