@@ -5,6 +5,7 @@ import './App.css';
 import { Home } from './pages/Home';
 import { RQSuperHeroes } from './pages/RQSuperHeroes';
 import { SuperHeroes } from './pages/SuperHeroes';
+import RQSuperHero from './pages/RQSuperHero';
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ function App() {
                     <Routes>
                         <Route path="/super-heroes" element={<SuperHeroes />} />
                         <Route path="/rq-super-heroes" element={<RQSuperHeroes />} />
+                        <Route path="/rq-super-heroes/:heroId" element={<RQSuperHero />} />
                         <Route path="/" element={<Home />} />
                     </Routes>
                 </div>
