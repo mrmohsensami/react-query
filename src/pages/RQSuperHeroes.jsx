@@ -7,8 +7,12 @@ const fetchSuperHeros = () => {
 };
 
 export const RQSuperHeroes = () => {
-    const onSuccess = () => {
-        return console.log(data);
+    const onSuccess = (data) => {
+        console.log('Perform side effect after data fetching', data);
+    };
+
+    const onError = (error) => {
+        console.log('Perform side effect after encountering error', error);
     };
     const { data, isLoading, isError, error, isFetching, refetch } = useQuery('super-heroes', fetchSuperHeros, {
         // cacheTime: 5000,
@@ -17,7 +21,9 @@ export const RQSuperHeroes = () => {
         // refetchOnWindowFocus: false,
         // refetchInterval: 2000, // polling interval
         // refetchIntervalInBackground: true,
-        enabled: false,
+        // enabled: false,
+        onSuccess,
+        onError,
     });
     if (isFetching) {
         return <h2>Fetching...</h2>;
