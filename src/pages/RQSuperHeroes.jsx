@@ -1,8 +1,10 @@
-import React from 'react';
-import { useSuperHeroesData } from '../hooks/useSuperHeroesData';
+import { useState } from 'react';
+import { useAddSuperHeroData, useSuperHeroesData } from '../hooks/useSuperHeroesData';
 import { Link } from 'react-router-dom';
 
 export const RQSuperHeroes = () => {
+    const [name, setName] = useState('');
+    const [alterEgo, setAlterEgo] = useState('');
     const onSuccess = (data) => {
         console.log('Perform side effect after data fetching', data);
     };
@@ -11,6 +13,8 @@ export const RQSuperHeroes = () => {
         console.log('Perform side effect after encountering error', error);
     };
     const { data, isLoading, isError, error, isFetching, refetch } = useSuperHeroesData(onSuccess, onError);
+
+    const { mutate: addHero } = useAddSuperHeroData();
 
     if (isFetching) {
         return <h2>Fetching...</h2>;
@@ -22,9 +26,20 @@ export const RQSuperHeroes = () => {
         return <h2>{error.message}</h2>;
     }
 
+    const handleAddHeroClick = () => {
+        const hero = { name, alterEgo };
+        addHero(hero);
+    };
+
     return (
         <>
-            <div>RQSuperheroes</div>
+            <h2>RQSuperheroes</h2>
+            <div>
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                <input type="text" value={alterEgo} onChange={(e) => setAlterEgo(e.target.value)} />
+                <button onClick={handleAddHeroClick}>Add Hero</button>
+            </div>
+            <button onClick={refetch}>Fetch heroes</button>
             <button onClick={refetch}>Fetch Heroes</button>
             {data?.data.map((superhero) => {
                 return (
